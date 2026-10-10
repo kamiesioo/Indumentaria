@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Admin Panel — Korion Systems</title>
+<link rel="stylesheet" href="admin.css">
+</head>
+<body>
+<header class="top">
+  <div class="wrap top-in">
+    <a class="kmark" href="admin.html" aria-label="Korion Systems Admin Panel">
+      <svg viewBox="0 0 24 24" class="kmark-ico" aria-hidden="true"><path d="M4 3v18M4 12l11-9M9 12l10 9" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>
+      <span>KORION<em>SYSTEMS</em><small>Admin Panel</small></span>
+    </a>
+    <div class="top-actions">
+      <span class="pill" id="syncState" role="status" aria-live="polite">Todo guardado</span>
+      <a class="btn btn-ghost" href="index.html" target="_blank" rel="noopener">Ver tienda ↗</a>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+  <section class="intro">
+    <div>
+      <h1>Inventario y precios</h1>
+      <p>Editá precios y stock por talle. Los cambios se aplican a la tienda cuando tocás <b>Guardar</b>.</p>
+    </div>
+    <p class="local-note" role="note"><b>Datos locales.</b> Se guardan solo en este navegador. Usá <i>Exportar</i> para hacer un respaldo o llevarlos a otro equipo.</p>
+  </section>
+
+  <section class="kpis" id="kpis" aria-label="Resumen"></section>
+
+  <section class="card tools" aria-label="Filtros y acciones">
+    <div class="tools-row">
+      <label class="field grow"><span>Buscar</span><input type="search" id="q" placeholder="Nombre o código…" autocomplete="off"></label>
+      <label class="field"><span>Categoría</span><select id="cat"></select></label>
+      <label class="field"><span>Estado</span>
+        <select id="status">
+          <option value="all">Todos</option>
+          <option value="low">Stock bajo</option>
+          <option value="out">Agotados</option>
+          <option value="dirty">Con cambios sin guardar</option>
+        </select>
+      </label>
+      <label class="field"><span>Orden</span>
+        <select id="sort">
+          <option value="name">Nombre</option>
+          <option value="price-desc">Precio: mayor a menor</option>
+          <option value="price-asc">Precio: menor a mayor</option>
+          <option value="stock-asc">Stock: menor a mayor</option>
+          <option value="stock-desc">Stock: mayor a menor</option>
+        </select>
+      </label>
+    </div>
+    <div class="tools-row tools-end">
+      <label class="field small"><span>Alerta de stock bajo (≤ unidades)</span><input type="number" id="low" min="0" max="999" step="1" inputmode="numeric"></label>
+      <div class="btns">
+        <button type="button" class="btn btn-ghost" id="btnExport">Exportar</button>
+        <button type="button" class="btn btn-ghost" id="btnImport">Importar</button>
+        <button type="button" class="btn btn-ghost danger" id="btnReset">Restablecer</button>
+        <input type="file" id="file" accept="application/json,.json" hidden>
+      </div>
+    </div>
+  </section>
+
+  <section class="card bulk" id="bulk" hidden aria-label="Edición masiva">
+    <div class="bulk-head"><b id="bulkCount">0 seleccionados</b><button type="button" class="link" id="bulkClear">Quitar selección</button></div>
+    <div class="bulk-grid">
+      <div class="bulk-box">
+        <h3>Precio</h3>
+        <div class="inline">
+          <label class="field small"><span>Ajuste %</span><input type="number" id="bulkPct" value="10" step="1" inputmode="decimal"></label>
+          <label class="check"><input type="checkbox" id="bulkRound" checked> Redondear a $100</label>
+          <button type="button" class="btn" id="bulkPrice">Aplicar al precio</button>
+        </div>
+        <p class="hint">Usá valores negativos para bajar el precio (ej. −15).</p>
+      </div>
+      <div class="bulk-box">
+        <h3>Stock (todos los talles)</h3>
+        <div class="inline">
+          <label class="field small"><span>Acción</span>
+            <select id="bulkMode"><option value="add">Sumar / restar</option><option value="set">Fijar en</option></select>
+          </label>
+          <label class="field small"><span>Cantidad</span><input type="number" id="bulkQty" value="5" step="1" inputmode="numeric"></label>
+          <button type="button" class="btn" id="bulkStock">Aplicar al stock</button>
+        </div>
+        <p class="hint">Los cambios quedan como borrador hasta que guardes.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="card table-card" aria-label="Productos">
+    <div class="table-scroll">
+      <table id="tbl">
+        <thead>
+          <tr>
+            <th class="c-sel"><input type="checkbox" id="selAll" aria-label="Seleccionar todos los visibles"></th>
+            <th>Producto</th>
+            <th>Precio</th>
+            <th>Stock por talle</th>
+            <th class="num">Total</th>
+            <th>Estado</th>
+          </tr>
+        </thead>
+        <tbody id="rows"></tbody>
+      </table>
+    </div>
+    <p class="empty" id="empty" hidden>No hay productos con ese filtro.</p>
+  </section>
+
+  <section class="card log" aria-label="Actividad reciente">
+    <div class="log-head"><h2>Actividad reciente</h2><button type="button" class="link" id="logClear">Vaciar historial</button></div>
+    <ul id="logList"></ul>
+  </section>
+
+  <footer class="foot">Korion Systems · Admin Panel · v1.0</footer>
+</main>
+
+<div class="savebar" id="savebar" hidden>
+  <div class="savebar-in">
+    <span id="saveText">0 cambios sin guardar</span>
+    <div class="btns">
+      <button type="button" class="btn btn-ghost" id="btnDiscard">Descartar</button>
+      <button type="button" class="btn" id="btnSave">Guardar cambios</button>
+    </div>
+  </div>
+</div>
+<div id="toast" role="status" aria-live="polite"></div>
+
+<script src="js/data.js"></script>
+<script src="js/inventory.js"></script>
+<script src="js/admin.js"></script>
+</body>
+</html>

@@ -1,16 +1,21 @@
 // Lógica específica de cada página.
 
 function productCard(p) {
-  const sizes = p.oneSize ? ['Único'] : SIZES;
+  const sizes = Inventory.sizesOf(p);
+  const soldOut = Inventory.total(p) === 0;
   return `
   <article class="card" data-id="${p.id}">
     ${productImg(p)}
     <h3>${esc(p.name)}</h3>
     <p>${esc(p.desc)}</p>
     <div class="sizes" role="group" aria-label="Talle">
-      ${sizes.map(s => `<button type="button" class="size${p.oneSize ? ' sel' : ''}" data-size="${s}">${s}</button>`).join('')}
+      ${sizes.map(s => `<button type="button" class="size${p.oneSize && p.stock[s] > 0 ? ' sel' : ''}" data-size="${s}"${p.stock[s] <= 0 ? ' disabled title="Sin stock"' : ''}>${s}</button>`).join('')}
     </div>
-    <div class="buy"><b>${money(p.price)}</b><button type="button" class="btn btn-sm" data-add>Agregar</button></div>
+    <div class="stockline ${Inventory.status(p)}">
+      <span class="stockline-lbl">${{ ok: 'En stock', low: '¡Últimas unidades!', out: 'Agotado' }[Inventory.status(p)]} · ${Inventory.total(p)} u.</span>
+      ${sizes.length > 1 ? `<small>${sizes.map(z => `${z}: ${p.stock[z]}`).join(' · ')}</small>` : ''}
+    </div>
+    <div class="buy"><b>${money(p.price)}</b><button type="button" class="btn btn-sm" data-add${soldOut ? ' disabled' : ''}>${soldOut ? 'Agotado' : 'Agregar'}</button></div>
   </article>`;
 }
 
@@ -29,7 +34,10 @@ function bindProductCards(root) {
       if (!sel) { toast('Elegí un talle primero'); return; }
       const p = PRODUCTS.find(x => x.id === card.dataset.id);
       const s = sel.dataset.size;
-      Cart.add({ key: p.id + '-' + s, name: p.name, size: s, price: p.price });
+      const key = p.id + '-' + s;
+      const inCart = (Cart.get().find(l => l.key === key) || {}).qty || 0;
+      if (inCart >= p.stock[s]) { toast('No hay más stock de ese talle'); return; }
+      Cart.add({ key, id: p.id, name: p.name, size: s, price: p.price });
       toast('Agregado al carrito');
     }
   });
@@ -124,13 +132,28 @@ function initCombos() {
     sec.querySelector('[data-total]').textContent = money(r.total);
     sec.querySelector('[data-save]').textContent = money(r.full - r.total);
   }
+  // Deshabilita los talles sin stock de la remera elegida en cada slot.
+  function syncSizes(slot) {
+    const p = PRODUCTS.find(x => x.id === slot.querySelector('[data-slot=prod]').value);
+    const sel = slot.querySelector('[data-slot=size]');
+    [...sel.options].forEach(o => { o.disabled = p.stock[o.value] <= 0; });
+    if (sel.selectedOptions[0]?.disabled) { const ok = [...sel.options].find(o => !o.disabled); if (ok) sel.value = ok.value; }
+  }
+  root.querySelectorAll('.slot').forEach(syncSizes);
   root.querySelectorAll('.builder').forEach(update);
-  root.addEventListener('change', e => update(e.target.closest('.builder')));
+  root.addEventListener('change', e => {
+    const slot = e.target.closest('.slot');
+    if (slot && e.target.matches('[data-slot=prod]')) syncSizes(slot);
+    update(e.target.closest('.builder'));
+  });
   root.addEventListener('click', e => {
     if (!e.target.closest('[data-add-combo]')) return;
     const r = read(e.target.closest('.builder'));
     const detail = r.items.map(i => `${i.p.name} (${i.size})`).join(' + ');
-    Cart.add({ key: 'combo-' + r.combo.id + '-' + r.items.map(i => i.p.id + i.size).join('-'), name: r.combo.name, price: r.total, detail });
+    const need = {};
+    r.items.forEach(i => { const k = i.p.id + '-' + i.size; need[k] = (need[k] || 0) + 1; });
+    if (r.items.some(i => need[i.p.id + '-' + i.size] > i.p.stock[i.size])) { toast('No hay stock suficiente para esa combinación'); return; }
+    Cart.add({ key: 'combo-' + r.combo.id + '-' + r.items.map(i => i.p.id + i.size).join('-'), name: r.combo.name, price: r.total, detail, items: r.items.map(i => ({ id: i.p.id, size: i.size })) });
     toast('Combo agregado al carrito');
   });
   if (location.hash) document.querySelector(location.hash)?.scrollIntoView();
@@ -173,6 +196,10 @@ function initCheckout() {
     e.preventDefault();
     const t = totals();
     const order = 'PED-' + Math.random().toString(36).slice(2, 8).toUpperCase();
+    // Descuenta el stock de lo vendido (visible en el panel de administración).
+    const sold = [];
+    Cart.get().forEach(l => (l.items || [{ id: l.id, size: l.size }]).forEach(i => i.id && sold.push({ id: i.id, size: i.size, qty: l.qty })));
+    Inventory.consume(sold);
     Cart.clear();
     document.getElementById('checkoutBody').hidden = true;
     const ok = document.getElementById('checkoutOk');

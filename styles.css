@@ -1,7 +1,8 @@
+@import url("https://fonts.googleapis.com/css2?family=Anton&family=Archivo:wght@400;600;800&family=Jost:wght@300;400;500&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,400;1,500&family=EB+Garamond:ital,wght@0,400;1,400&family=Russo+One&family=Barlow:wght@500;700;800&family=Fredoka:wght@400;500;600;700&family=Nunito:wght@400;600;800&display=swap");
 :root{
   --bg:#0a0a0a; --bg2:#141414; --fg:#f4f4f2; --mute:#9a9a96; --red:#d1262b; --line:#2a2a2a;
   --inv:#000; --on-acc:#fff; --btn:var(--fg); --btn-ink:var(--inv); --glow:#1f1f1f; --ph:#2a2a2a;
-  --font:"Helvetica Neue",Arial,sans-serif; --font-head:var(--font); --tt:uppercase; --r:0px; --stroke:2px;
+  --font:"Archivo","Helvetica Neue",Arial,sans-serif; --font-head:"Anton",Impact,"Arial Narrow",sans-serif; --tt:uppercase; --r:0px; --stroke:2px;
 }
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
@@ -255,7 +256,6 @@ h1,h2,h3,.fit h3,.card h3,.combo-card b{text-transform:var(--tt)}
 html[data-theme="minimal"]{
   --bg:#fafaf8; --bg2:#f0f0ec; --fg:#141414; --mute:#6b6b66; --red:#141414; --line:#dcdcd5;
   --inv:#fafaf8; --on-acc:#fafaf8; --glow:#ececE6; --ph:#e4e4de; --tt:none; --stroke:1px;
-  --font:"Inter","Helvetica Neue",Arial,sans-serif;
 }
 html[data-theme="minimal"] h1,html[data-theme="minimal"] h2{font-weight:600;letter-spacing:-.04em}
 html[data-theme="minimal"] .img img{filter:none}
@@ -263,7 +263,6 @@ html[data-theme="minimal"] .img img{filter:none}
 html[data-theme="boutique"]{
   --bg:#f3ece2; --bg2:#e9dfd0; --fg:#2e2418; --mute:#7a6a58; --red:#8a4b2d; --line:#d6c8b3;
   --inv:#f3ece2; --on-acc:#fbf6ee; --glow:#e6d9c5; --ph:#d9c9b0; --tt:none; --stroke:1px;
-  --font:Georgia,"Times New Roman",serif; --font-head:Georgia,"Times New Roman",serif;
 }
 html[data-theme="boutique"] h1,html[data-theme="boutique"] h2{font-weight:400;font-style:italic;letter-spacing:-.01em}
 html[data-theme="boutique"] .logo{letter-spacing:.3em;font-weight:400}
@@ -272,7 +271,7 @@ html[data-theme="boutique"] .img img{filter:sepia(.25)}
 html[data-theme="deportivo"]{
   --bg:#0d0d0d; --bg2:#181818; --fg:#ffffff; --mute:#b3b3a8; --red:#ffd400; --line:#303030;
   --inv:#000; --on-acc:#000; --btn:#ffd400; --btn-ink:#000; --glow:#2b2600; --ph:#3a3300;
-  --font:"Arial Black",Impact,"Helvetica Neue",Arial,sans-serif; --font-head:"Arial Black",Impact,Arial,sans-serif; --stroke:2px;
+  --stroke:2px;
 }
 html[data-theme="deportivo"] h1,html[data-theme="deportivo"] h2{font-style:italic;letter-spacing:-.04em}
 html[data-theme="deportivo"] .marquee{background:var(--btn)}
@@ -281,7 +280,6 @@ html[data-theme="deportivo"] .img img{filter:contrast(1.1) saturate(1.2)}
 html[data-theme="pastel"]{
   --bg:#fff6fa; --bg2:#ffe8f1; --fg:#2d2250; --mute:#7b6f9c; --red:#ff5c9a; --line:#f3cfe0;
   --inv:#fff; --on-acc:#fff; --btn:#2d2250; --btn-ink:#fff; --glow:#ffdcec; --ph:#ffd0e3; --tt:none; --r:16px; --stroke:2px;
-  --font:"Trebuchet MS","Avenir Next",system-ui,sans-serif; --font-head:"Trebuchet MS","Avenir Next",system-ui,sans-serif;
 }
 html[data-theme="pastel"] h1,html[data-theme="pastel"] h2{font-weight:800;letter-spacing:-.03em}
 html[data-theme="pastel"] .img img{filter:saturate(1.1)}
@@ -463,3 +461,69 @@ html[data-theme="pastel"] body:not([data-page="checkout"]) main .builder{border-
 .themepanel{bottom:84px}
 @media(max-width:600px){.themebtn{padding:13px 18px;font-size:13px}.themehint{bottom:76px}}
 @media(prefers-reduced-motion:reduce){.themebtn{animation:none}}
+
+/* ===== Tipografía y formato propios de cada estilo ===== */
+.hero-bg,.themebtn,.fit h3,.combo-card b,.buy b,.logo,.cart-btn,.chip,.btn{font-family:var(--font-head)}
+.hero-bg,h1,h2,h3,.logo,.btn,.chip,.cart-btn,.themebtn,.fit h3,.combo-card b,.buy b{font-weight:var(--hw)}
+html{--hw:400}
+html[data-theme="minimal"]{--font:"Jost","Helvetica Neue",Arial,sans-serif;--font-head:"Jost","Helvetica Neue",Arial,sans-serif;--hw:400}
+html[data-theme="boutique"]{--font:"EB Garamond",Georgia,serif;--font-head:"Cormorant Garamond",Georgia,serif;--hw:500}
+html[data-theme="deportivo"]{--font:"Barlow","Arial Narrow",Arial,sans-serif;--font-head:"Russo One","Arial Black",Impact,sans-serif;--hw:400}
+html[data-theme="pastel"]{--font:"Nunito",system-ui,sans-serif;--font-head:"Fredoka","Nunito",system-ui,sans-serif;--hw:600}
+
+/* Oscuro: condensado, apretado, estilo cartel de calle */
+html:not([data-theme]) body,html[data-theme=""] body{font-size:16px}
+html:not([data-theme]) h1,html[data-theme=""] h1{line-height:.86;letter-spacing:.005em}
+html:not([data-theme]) h2,html[data-theme=""] h2{letter-spacing:.01em}
+html:not([data-theme]) .eyebrow::before,html[data-theme=""] .eyebrow::before{content:"// "}
+html:not([data-theme]) .btn,html[data-theme=""] .btn,html:not([data-theme]) .chip,html[data-theme=""] .chip{letter-spacing:.14em}
+
+/* Minimal: liviano, geométrico, minúsculas y aire */
+html[data-theme="minimal"] h1,html[data-theme="minimal"] h2{font-weight:300;letter-spacing:-.035em}
+html[data-theme="minimal"] .eyebrow{text-transform:none;letter-spacing:.04em;font-weight:500;font-size:14px;color:var(--mute)}
+html[data-theme="minimal"] .logo{text-transform:lowercase;letter-spacing:.02em;font-size:18px;font-weight:500}
+html[data-theme="minimal"] .nav nav a,html[data-theme="minimal"] .cart-btn,html[data-theme="minimal"] .chip,html[data-theme="minimal"] .btn{text-transform:none;letter-spacing:.02em;font-weight:500;font-size:14px}
+html[data-theme="minimal"] .lead{font-size:19px;font-weight:300}
+html[data-theme="minimal"] .buy b{font-weight:500}
+
+/* Boutique: serif editorial, cursivas y mayúsculas espaciadas */
+html[data-theme="boutique"] body{font-size:18px;line-height:1.6}
+html[data-theme="boutique"] h1{font-size:clamp(56px,9vw,140px);line-height:.95}
+html[data-theme="boutique"] h2{font-size:clamp(40px,5.6vw,72px)}
+html[data-theme="boutique"] .eyebrow{font-style:italic;text-transform:none;letter-spacing:.08em;font-weight:400;font-size:17px}
+html[data-theme="boutique"] .lead{font-style:italic;font-size:22px}
+html[data-theme="boutique"] .logo{text-transform:uppercase;font-size:22px}
+html[data-theme="boutique"] .btn,html[data-theme="boutique"] .chip{font-style:italic;text-transform:none;letter-spacing:.04em;font-size:16px}
+html[data-theme="boutique"] .card p{font-style:italic}
+
+/* Deportivo: bloque ancho, itálica y mayúsculas gritadas */
+html[data-theme="deportivo"] body{font-weight:500;font-size:17px}
+html[data-theme="deportivo"] h1,html[data-theme="deportivo"] h2{text-transform:uppercase;letter-spacing:-.02em}
+html[data-theme="deportivo"] h1{line-height:.9}
+html[data-theme="deportivo"] .eyebrow{display:inline-block;background:var(--red);color:var(--on-acc);padding:4px 12px;transform:skewX(-10deg);font-family:var(--font-head);font-weight:400;letter-spacing:.18em}
+html[data-theme="deportivo"] .lead{font-weight:700;color:var(--fg);font-size:20px}
+html[data-theme="deportivo"] .btn,html[data-theme="deportivo"] .chip{letter-spacing:.08em}
+
+/* Pastel: redondo, juguetón, tipografía amigable */
+html[data-theme="pastel"] body{font-size:17px;font-weight:600}
+html[data-theme="pastel"] h1,html[data-theme="pastel"] h2{font-weight:700;letter-spacing:-.01em;line-height:1.02}
+html[data-theme="pastel"] .eyebrow{display:inline-block;background:var(--bg2);color:var(--red);border-radius:999px;padding:6px 16px;text-transform:none;letter-spacing:.04em;font-size:14px;font-weight:800}
+html[data-theme="pastel"] .logo{text-transform:none;font-size:20px;letter-spacing:.02em}
+html[data-theme="pastel"] .btn,html[data-theme="pastel"] .chip,html[data-theme="pastel"] .cart-btn{text-transform:none;letter-spacing:.02em;font-size:15px}
+html[data-theme="pastel"] .lead{font-weight:600;font-size:19px}
+
+.size:disabled{opacity:.35;text-decoration:line-through;cursor:not-allowed}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+
+.stockline{display:grid;gap:2px;margin:10px 0 12px;font-size:13px;color:var(--mute)}
+.stockline-lbl{font-weight:700;color:var(--fg)}
+.stockline-lbl::before{content:"";display:inline-block;width:8px;height:8px;border-radius:50%;background:#2fbf71;margin-right:7px}
+.stockline.low .stockline-lbl::before{background:#e8a317}
+.stockline.low .stockline-lbl{color:#e8a317}
+.stockline.out .stockline-lbl::before{background:#d64545}
+.stockline.out .stockline-lbl{color:#d64545}
+.stockline small{font-size:12px;letter-spacing:.02em}
+html[data-theme="boutique"] body:not([data-page="checkout"]) main .stockline,html[data-theme="minimal"] body:not([data-page="checkout"]) main .stockline{text-align:center}
+html[data-theme="boutique"] body:not([data-page="checkout"]) main .stockline{justify-items:center}
+html[data-theme="deportivo"] body:not([data-page="checkout"]) main .stockline,html[data-theme="pastel"] body:not([data-page="checkout"]) main .stockline{padding-inline:14px}
+html[data-theme="pastel"] body:not([data-page="checkout"]) main .stockline{padding-inline:8px}
