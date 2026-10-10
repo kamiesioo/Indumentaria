@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pagar — Korion Wear</title>
+<link rel="stylesheet" href="styles.css">
+<script>try{var t=sessionStorage.getItem("theme");if(t)document.documentElement.dataset.theme=t}catch(e){}</script>
+</head>
+<body data-page="checkout">
+<main class="section">
+  <div class="head"><p class="eyebrow">Último paso</p><h1 class="h-page">Finalizar compra</h1></div>
+  <div class="demo-note" role="note">
+    <b>Sitio de demostración.</b> Todo lo que ves es ficticio: los productos, los precios y los pagos. Esta página <b>no guarda ningún dato</b> (ni personales ni de tarjeta) ni procesa pagos reales; solo sirve para probar que el flujo de compra funciona. Podés completar el formulario con datos inventados.
+  </div>
+  <div id="checkoutEmpty" hidden class="empty"><p>Tu carrito está vacío.</p><a class="btn" href="catalogo.html">Ver catálogo</a></div>
+  <div id="checkoutOk" hidden class="ok"></div>
+  <div class="checkout" id="checkoutBody">
+    <form id="checkoutForm" autocomplete="off">
+      <fieldset><legend>Tus datos</legend>
+        <label>Nombre y apellido<input name="name" required autocomplete="name"></label>
+        <label>Email<input name="email" type="email" required autocomplete="email"></label>
+        <label>Teléfono<input name="phone" type="tel" required autocomplete="tel"></label>
+      </fieldset>
+      <fieldset><legend>Entrega</legend>
+        <label class="opt"><input type="radio" name="delivery" value="retiro" checked> Retiro en el local · Gratis</label>
+        <label class="opt"><input type="radio" name="delivery" value="envio"> Envío a domicilio</label>
+        <label id="addrField" hidden>Dirección de entrega<input name="address" autocomplete="street-address"></label>
+      </fieldset>
+      <fieldset><legend>Forma de pago</legend>
+        <label class="opt"><input type="radio" name="pay" value="transferencia" checked> Transferencia · 20% OFF</label>
+        <label class="opt"><input type="radio" name="pay" value="efectivo"> Efectivo al retirar · 20% OFF</label>
+        <label class="opt"><input type="radio" name="pay" value="tarjeta"> Tarjeta de crédito/débito</label>
+        <div id="cardBox" hidden class="cardbox">
+          <p class="card-warn">DATOS DE PRUEBA — tarjeta ficticia, no uses datos reales</p>
+          <div class="cardtype">
+            <label class="opt"><input type="radio" name="cardtype" value="debito" checked> Débito</label>
+            <label class="opt"><input type="radio" name="cardtype" value="credito"> Crédito</label>
+          </div>
+          <label>Número de tarjeta<input name="cardnum" value="4000 0000 0000 0000" inputmode="numeric" maxlength="19" autocomplete="off"></label>
+          <label>Titular<input name="cardname" value="TITULAR DE PRUEBA" autocomplete="off"></label>
+          <div class="two">
+            <label>Vencimiento<input name="cardexp" value="12/30" maxlength="5" autocomplete="off"></label>
+            <label>CVV<input name="cardcvv" value="123" inputmode="numeric" maxlength="3" autocomplete="off"></label>
+          </div>
+          <label id="installField" hidden>Cuotas
+            <select name="installments"><option value="1">1 pago</option><option value="3">3 cuotas sin interés</option><option value="6">6 cuotas sin interés</option></select>
+          </label>
+        </div>
+      </fieldset>
+      <button class="btn" type="submit">Confirmar pedido</button>
+    </form>
+    <aside class="summary"><h3>Resumen</h3><div id="summary"></div></aside>
+  </div>
+</main>
+<script src="js/data.js"></script>
+<script src="js/app.js"></script>
+<script src="js/pages.js"></script>
+</body>
+</html>

@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Catálogo — Korion Wear</title>
+<link rel="stylesheet" href="styles.css">
+<script>try{var t=sessionStorage.getItem("theme");if(t)document.documentElement.dataset.theme=t}catch(e){}</script>
+</head>
+<body data-page="catalog">
+<main class="section">
+  <div class="head"><p class="eyebrow">Tienda</p><h1 class="h-page">Catálogo</h1></div>
+  <div class="filters">
+    <div class="chips" id="catChips"></div>
+    <div class="chips" id="fitChips"></div>
+    <div class="sortbar">
+      <span id="resultCount"></span>
+      <label>Ordenar
+        <select id="sort">
+          <option value="default">Destacados</option>
+          <option value="asc">Menor precio</option>
+          <option value="desc">Mayor precio</option>
+        </select>
+      </label>
+    </div>
+  </div>
+  <div class="grid" id="grid"></div>
+</main>
+<script src="js/data.js"></script>
+<script src="js/app.js"></script>
+<script src="js/pages.js"></script>
+</body>
+</html>

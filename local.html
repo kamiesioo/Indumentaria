@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Nuestro local — Korion Wear</title>
+<link rel="stylesheet" href="styles.css">
+<script>try{var t=sessionStorage.getItem("theme");if(t)document.documentElement.dataset.theme=t}catch(e){}</script>
+</head>
+<body data-page="local">
+<main class="section">
+  <div class="local">
+    <div>
+      <p class="eyebrow">Pasá a vernos</p>
+      <h1 class="h-page">Nuestro local</h1>
+      <p class="lead">Probate todo en persona. El retiro de compras online es gratis.</p>
+      <ul class="info">
+        <li><b>Dirección</b> <span id="addr"></span></li>
+        <li><b>Pagos</b> Efectivo, transferencia y tarjetas</li>
+        <li><b>Instagram</b> <span id="ig"></span></li>
+      </ul>
+      <h3 class="sub">Horarios</h3>
+      <ul class="info" id="hours"></ul>
+      <div class="cta"><a class="btn" id="wa" href="#">Escribinos por WhatsApp</a></div>
+    </div>
+    <div class="map" aria-hidden="true"><svg class="pin"><use href="#mark"/></svg></div>
+  </div>
+</main>
+<script src="js/data.js"></script>
+<script src="js/app.js"></script>
+<script src="js/pages.js"></script>
+</body>
+</html>
